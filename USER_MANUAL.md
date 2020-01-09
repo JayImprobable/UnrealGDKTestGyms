@@ -68,6 +68,15 @@ Actors used in gyms are in `Contetnt\Actors`: add any new Actors to this directo
   1. On play, a replicated array of references to actors is filled with the map's content. 
   2. Depending on how the operations are scheduled, some clients/server workers will receive null references (red log message).
   3. Eventually, after one or more RepNotify, all workers should receive all the valid references (green log message).
+  
+##### Soft references Test Gym
+* Test what happens when we serialize soft references to asset, and references to assets not yet loaded on the client.
+* This test should be ran from different processes for client and server (not enabling the option "Use single process" in the editor)
+* It also enables the CVar net.AllowAsyncLoading to make sure references to packages loaded in the background get eventually resolved
+* Validation :
+  1. On play, soft references to green materials will be set on replicated properties (permutation of soft/hard references on single/array properties)
+  2. Replicated properties will be picked up by RepNotifies on the client, and will set the received material on a cube in the scene
+  3. Eventually, all cubes should turn green.
 
 -----
 2019-11-15: Page added with editorial review
